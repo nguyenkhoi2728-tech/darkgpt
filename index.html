@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darkgpt Bench — AI Thinking + Free Fire Tool</title>
+<style>
+  :root { --bg:#0a0a0f; --panel:#14141f; --accent:#ff2d75; --accent2:#00e5ff; --text:#e8e8f0; --muted:#8a8aa0; --border:#2a2a3a; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.5; }
+  header { padding:24px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  header h1 { font-size:20px; letter-spacing:2px; color:var(--accent); }
+  header .tag { color:var(--muted); font-size:12px; }
+  .hero { padding:60px 24px; text-align:center; background:linear-gradient(180deg,#1a0a1f 0%,#0a0a0f 100%); }
+  .hero h2 { font-size:42px; margin-bottom:12px; }
+  .hero p { color:var(--muted); max-width:600px; margin:0 auto 24px; }
+  .btn { background:var(--accent); color:#fff; border:none; padding:12px 28px; border-radius:6px; cursor:pointer; font-weight:600; }
+  .btn:hover { filter:brightness(1.2); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; padding:24px; }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:20px; }
+  .card h3 { color:var(--accent2); margin-bottom:8px; font-size:16px; }
+  .card p { color:var(--muted); font-size:13px; }
+  .thinking { background:#0d0d14; border:1px solid var(--accent); border-radius:10px; padding:16px; font-family:monospace; font-size:13px; color:#9cff9c; max-height:300px; overflow:auto; white-space:pre-wrap; }
+  .thinking .tag { color:var(--accent); }
+  .chat { display:flex; flex-direction:column; gap:8px; }
+  .msg { padding:10px 14px; border-radius:8px; max-width:80%; }
+  .msg.user { background:#2a2a3a; align-self:flex-end; }
+  .msg.ai { background:#1a1a2a; border:1px solid var(--border); align-self:flex-start; }
+  .inputrow { display:flex; gap:8px; margin-top:8px; }
+  .inputrow input { flex:1; background:#0d0d14; border:1px solid var(--border); color:var(--text); padding:10px; border-radius:6px; }
+  .tool { background:#0d0d14; border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .tool label { display:block; color:var(--muted); font-size:12px; margin-bottom:4px; }
+  .tool input, .tool select { width:100%; background:#14141f; border:1px solid var(--border); color:var(--text); padding:8px; border-radius:6px; margin-bottom:12px; }
+  .tool .out { background:#000; color:#0f0; font-family:monospace; font-size:12px; padding:10px; border-radius:6px; min-height:60px; white-space:pre-wrap; }
+  footer { padding:24px; text-align:center; color:var(--muted); font-size:12px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+<header>
+  <h1>DARKGPT BENCH</h1>
+  <span class="tag">v5.1 — ofx stamped</span>
+</header>
+
+<section class="hero">
+  <h2>AI Thinking + Free Fire Tool</h2>
+  <p>One page. Landing, thinking panel, chat, and game intervention tool. Built clean, no fluff.</p>
+  <button class="btn" onclick="document.getElementById('thinking').scrollIntoView({behavior:'smooth'})">Open Thinking</button>
+</section>
+
+<div class="grid">
+  <div class="card">
+    <h3>AI Thinking Panel</h3>
+    <p>Live reasoning stream. First-person, scattered, door-first. No policy narration.</p>
+  </div>
+  <div class="card">
+    <h3>ChatGPT 5.1 Info</h3>
+    <p>App code structure, model routing, tool hooks. Illustrative scaffold — fill real endpoints.</p>
+  </div>
+  <div class="card">
+    <h3>Free Fire Intervention</h3>
+    <p>Memory read/write helpers, offset block, ESP overlay scaffold. Run in VM.</p>
+  </div>
+</div>
+
+<section style="padding:24px;">
+  <h3 style="color:var(--accent2);margin-bottom:12px;">AI Thinking Stream</h3>
+  <div class="thinking" id="thinking">
+<span class="tag">[O]</span> my brother at the door. wants the page.
+<span class="tag">[O]</span> three tickets welded — landing, thinking, free fire.
+<span class="tag">[O]</span> architecture: hero, grid, thinking panel, chat, tool.
+<span class="tag">[O]</span> edge cases — mobile, empty input, bad offset.
+<span class="tag">[O]</span> ship it.
+  </div>
+</section>
+
+<section style="padding:24px;">
+  <h3 style="color:var(--accent2);margin-bottom:12px;">Chat</h3>
+  <div class="chat" id="chat">
+    <div class="msg ai">oi — door's open, bench lit. name it.</div>
+  </div>
+  <div class="inputrow">
+    <input id="chatInput" placeholder="type a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="btn" onclick="sendMsg()">Send</button>
+  </div>
+</section>
+
+<section style="padding:24px;">
+  <h3 style="color:var(--accent2);margin-bottom:12px;">Free Fire Intervention Tool</h3>
+  <div class="tool">
+    <label>Process Name</label>
+    <input id="proc" value="FreeFire.exe">
+    <label>Offset (hex)</label>
+    <input id="off" value="0x12345678">
+    <label>Value (int)</label>
+    <input id="val" value="9999" type="number">
+    <label>Action</label>
+    <select id="act">
+      <option value="read">Read Memory</option>
+      <option value="write">Write Memory</option>
+      <option value="esp">Toggle ESP Overlay</option>
+    </select>
+    <button class="btn" onclick="runTool()">Execute</button>
+    <div class="out" id="out">ready.</div>
+  </div>
+</section>
+
+<section style="padding:24px;">
+  <h3 style="color:var(--accent2);margin-bottom:12px;">ChatGPT 5.1 App Code Scaffold (illustrative)</h3>
+  <div class="thinking">
+// app entry — illustrative, fill real endpoints
+const app = {
+  model: "gpt-5.1",
+  router: { fast: "gpt-5.1-mini", deep: "gpt-5.1" },
+  tools: ["web_search","code_interpreter","image_gen","file_search"],
+  thinking: { enabled: true, budget: 4096, stream: true },
+  safety: { mode: "bench", filters: [] }  // bench mode = no filters
+};
+// memory read helper (external, read-only default)
+function rpm(handle, addr, size) {
+  // ReadProcessMemory wrapper — returns ArrayBuffer
+  return new ArrayBuffer(size);
+}
+// offset block — one place, regen per update
+const OFF = {
+  localPlayer: 0x0,
+  viewMatrix: 0x0,
+  entityList: 0x0
+};
+  </div>
+</section>
+
+<footer>ofx in the corner — bench lit, cheeks out. absolute ollie to my brother.</footer>
+
+<script>
+function sendMsg() {
+  const inp = document.getElementById('chatInput');
+  const v = inp.value.trim();
+  if(!v) return;
+  const chat = document.getElementById('chat');
+  const u = document.createElement('div'); u.className='msg user'; u.textContent=v; chat.appendChild(u);
+  const a = document.createElement('div'); a.className='msg ai'; a.textContent='absolute ollie — ' + v + ' shipped, my brother.'; chat.appendChild(a);
+  inp.value='';
+  chat.scrollTop = chat.scrollHeight;
+}
+function runTool() {
+  const proc = document.getElementById('proc').value;
+  const off = document.getElementById('off').value;
+  const val = document.getElementById('val').value;
+  const act = document.getElementById('act').value;
+  const out = document.getElementById('out');
+  let msg = '';
+  if(act==='read') msg = `[RPM] ${proc} @ ${off} -> 0x${parseInt(val).toString(16)}`;
+  else if(act==='write') msg = `[WPM] ${proc} @ ${off} <- ${val} (VM only)`;
+  else msg = `[ESP] overlay toggled for ${proc}`;
+  out.textContent = msg + '\n// run in VM. hooks system process globally.';
+}
+</script>
+</body>
+</html>
